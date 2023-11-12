@@ -1,7 +1,7 @@
 #include <Servo.h>
 
 // Servos:
-Servo x, y, shoot;  // Declare the 'shoot' servo
+Servo x, y, shoot;  // Declare the shoot servo
 int width = 640, height = 480;  // total resolution of the video
 int targetX = width / 2, targetY = height / 2;  // target positions
 
@@ -22,9 +22,9 @@ void setup() {
   // pinMode(echoPin, INPUT);
   x.attach(11);
   y.attach(10);
-  shoot.attach(9);  // Attach the 'shoot' servo to pin 9
-  x.write(90);  // Start at 90° position for X axis
-  y.write(90);  // Start at 90° position for Y axis
+  shoot.attach(9);  // Attach the shoot servo to pin 9
+  x.write(90);  // Start at 90 position for X axis
+  y.write(90);  // Start at 90 position for Y axis
 }
 
 void loop() {
