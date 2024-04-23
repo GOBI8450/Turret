@@ -3,11 +3,10 @@ import serial
 import time
 import keyboard
 
-# Initialize Arduino serial connection
+#Arduino serial connection
 ArduinoSerial = serial.Serial('COM3', 9600, timeout=0.1)
 time.sleep(1)
 
-# OpenCV face detection and servo control code
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 cap = cv2.VideoCapture(0)
 
@@ -30,19 +29,19 @@ while cap.isOpened():
         # plot the center of the face
         cv2.circle(frame, (x + w // 2, y + h // 2), 2, (0, 255, 0), 2)
 
-        # plot the roi
+        # plot the region of interest
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 255), 3)
 
-        # Check if spacebar is pressed and shooting signal is not sent
+        # check if spacebar is pressed and shooting signal is not sent
         if keyboard.is_pressed('space') and not shooting_flag:
             print("Shooting signal sent!")
             ArduinoSerial.write(b'S')  # Trigger shooting in Arduino
             shooting_flag = True  # Set the shooting flag
 
-            # Record the start time when spacebar is pressed
+            # record the start time when spacebar is pressed
             start_time = time.time()
 
-        # Check if 1 second has passed since spacebar was pressed and take a screenshot
+        # check if 1 second has passed since spacebar was pressed and take a screenshot
         if shooting_flag and time.time() - start_time >= 1:
             print("Taking screenshot!")
             screenshot_filename = f'screenshot{shooting_counter}.png'
@@ -50,7 +49,7 @@ while cap.isOpened():
             print(f"Screenshot saved as '{screenshot_filename}'")
             shooting_counter += 1  # Increment the counter for the next screenshot
 
-            # Reset the shooting flag after taking the screenshot
+            # reset the shooting flag after taking the screenshot
             shooting_flag = False
 
     # plot the squared region in the center of the screen
@@ -58,13 +57,13 @@ while cap.isOpened():
                   (640 // 2 + 30, 480 // 2 + 30),
                   (255, 255, 255), 3)
 
-    # Display the frame in an OpenCV window
+    # display the frame in an OpenCV window
     cv2.imshow('img', frame)
 
     # press 'h' to Quit
     if cv2.waitKey(10) & 0xFF == ord('h'):
         break
 
-# Release the video capture and close OpenCV windows
+# release the video capture and close OpenCV windows
 cap.release()
 cv2.destroyAllWindows()
